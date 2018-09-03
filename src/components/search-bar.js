@@ -12,7 +12,6 @@ export default class Search extends Component {
     }
 
     changePokemon = (pokemon) => {
-        console.log(pokemon, 'hgfhg');
         this.setState({
             pokemon: pokemon
         })
@@ -21,7 +20,6 @@ export default class Search extends Component {
     getPokemonDetails = (pokemon) =>{
         fetchPokemonDetails(pokemon)
             .then((data) => {
-                console.log(data, "here");
                 this.props.showPokeDoxCard(data)})
             .catch(error => {
                 console.log(error);

@@ -1,16 +1,26 @@
 import React, {Component} from 'react';
+import {withRouter} from 'react-router-dom';
 
-class Pokemon extends Component{
+class PokemonCard extends Component{
     constructor(props){
         super(props);
         this.state = {img: `https://img.pokemondb.net/artwork/${this.props.pokemonDetails.name}.jpg`}
     }
 
+    componentWillMount(){
+        if (this.props.pokemonDetails === ''){
+            console.log("in comp didd mount of name-pokecard");
+            this.props.history.push('/files');
+        }
+    }
+
     abilityList = ()=>{
         return Object.keys(this.props.pokemonDetails.abilities).map((listValue) => {
                 return (
-                    <div className="d-flex mb-3" key={listValue}>
-                        {this.props.pokemonDetails.abilities[listValue].ability.name}
+                    <div className="d-flex" key={listValue}>
+                        <div className="p-2">
+                            {this.props.pokemonDetails.abilities[listValue].ability.name.toUpperCase()}
+                        </div>
                     </div>
                 )
         });
@@ -21,14 +31,13 @@ class Pokemon extends Component{
             return (
                 <div className="d-flex" key={listValue}>
                     <div className="p-2">
-                        {this.props.pokemonDetails.types[listValue].type.name}
+                        {this.props.pokemonDetails.types[listValue].type.name.toUpperCase()}
                     </div>
                 </div>)
         });
     };
 
     render(){
-        console.log(typeof this.props.pokemonDetails.types);
         return(
             <div className="container" id="pokemon-card" >
                 <div className="row" id="row-2">
@@ -101,4 +110,4 @@ class Pokemon extends Component{
     }
 }
 
-export default Pokemon;
+export default withRouter(PokemonCard);

@@ -1,17 +1,22 @@
 import React, {Component} from 'react';
 const API = 'https://cors.io/?http://pokeapi.co/api/v2';
 
-class Search extends Component {
+/**
+ * This component akes the input from user. On submit fetchs the data from API and passes the data to
+ * Container along with the type of card to render. It also limits the search for a pokemon to 152 original
+ */
+class SearchBar extends Component {
 
     constructor(props){
         super(props);
         this.state = {
-            input:'kom',
+            input:'',
             url: 'Name or Id',
-            message: false
+            message: false,
         };
     }
 
+    // change state on user input change
     changePokemon = (userInput) => {
         this.setState({
             input: userInput
@@ -20,19 +25,31 @@ class Search extends Component {
 
     getPokemonDetails = (url) =>{
         fetch(`${API}/${url}/${this.state.input.toLowerCase()}`, {
-            method: 'GET', mode:'cors'})
+            method: 'GET', mode:'cors',})
             .then((res) => {
                 if (res.status === 200) {
                     return res.json();
                 } else if (res.status === 404){
-                    this.setState({message:true});
+                    this.setState({message:"0 results found"});
                     return ''
                 } else{
                     throw "Unknown error";
                 }
             })
             .then((data) => {
-                this.props.showPokeDoxCard(data, this.state.url)
+                if (Number(data.id) < 152) {
+                    this.props.showPokeDoxCard(data, this.state.url)
+                } else if (data === ''){
+
+                    // resetting the state of Container component
+                    this.props.showPokeDoxCard('', '')
+                }
+                else{
+                    this.setState({message:'Only first 151 pokemons can be searched'});
+
+                    // resetting the state of container
+                    this.props.showPokeDoxCard('', '')
+                }
             })
             .catch(error => {
                 return error;
@@ -74,11 +91,11 @@ class Search extends Component {
                             }
                         }>Submit</button>
                     </div>
-                    {this.state.message ? <div className="col-lg-3 col-centered">0 results found</div> : '' }
+                    {this.state.message ? <div className="col-lg-5 col-centered">{this.state.message}</div> : '' }
 
                 </div>
         )
     }
 }
 
-export default Search;
+export default SearchBar;

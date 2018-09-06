@@ -1,37 +1,34 @@
 import React, {Component} from 'react';
-import {withRouter} from 'react-router-dom';
 
-class PokemonCard extends Component{
+/**
+ * This component is rendered when user search by pokemon name or pokemon ID
+ */
+class NameCard extends Component{
     constructor(props){
         super(props);
         this.state = {img: `https://img.pokemondb.net/artwork/${this.props.pokemonDetails.name}.jpg`}
     }
 
-    componentWillMount(){
-        if (this.props.pokemonDetails === ''){
-            console.log("in comp didd mount of name-pokecard");
-            this.props.history.push('/files');
-        }
-    }
-
+    // it render the list of abilities that the searched type of pokemon has
     abilityList = ()=>{
-        return Object.keys(this.props.pokemonDetails.abilities).map((listValue) => {
+        return (this.props.pokemonDetails.abilities.map((ability, key) => {
                 return (
-                    <div className="d-flex" key={listValue}>
+                    <div className="d-flex" key={key}>
                         <div className="p-2">
-                            {this.props.pokemonDetails.abilities[listValue].ability.name.toUpperCase()}
+                            {ability.ability.name.toUpperCase()}
                         </div>
                     </div>
-                )
-        });
+                )})
+        );
     };
 
+    // it render the list of types that the searched pokemon has
     typeList = ()=>{
-        return Object.keys(this.props.pokemonDetails.types).map((listValue) => {
+        return this.props.pokemonDetails.types.map((pokemon, key) => {
             return (
-                <div className="d-flex" key={listValue}>
+                <div className="d-flex" key={key}>
                     <div className="p-2">
-                        {this.props.pokemonDetails.types[listValue].type.name.toUpperCase()}
+                        {pokemon.type.name.toUpperCase()}
                     </div>
                 </div>)
         });
@@ -64,6 +61,10 @@ class PokemonCard extends Component{
                             <div className="p-2"><b>Weight:</b></div>
                         </div>
 
+                        <div className="d-flex mb-3">
+                            <div className="p-2"><b>ID:</b></div>
+                        </div>
+
                     </div>
                     <div className="col-2">
                         <br/>
@@ -78,6 +79,10 @@ class PokemonCard extends Component{
 
                         <div className="d-flex mb-3">
                             <div className="p-2">{this.props.pokemonDetails.weight}</div>
+                        </div>
+
+                        <div className="d-flex mb-3">
+                            <div className="p-2">{this.props.pokemonDetails.id}</div>
                         </div>
 
                     </div>
@@ -110,4 +115,4 @@ class PokemonCard extends Component{
     }
 }
 
-export default withRouter(PokemonCard);
+export default NameCard;

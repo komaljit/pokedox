@@ -1,23 +1,40 @@
 import React, {Component} from 'react';
-import {withRouter} from 'react-router-dom';
 
 class TypeCard extends Component{
 
     constructor(props){
         super(props);
-        this.state = {};
+        this.state = {pagination: Math.ceil(this.props.pokemonDetails.pokemon.length/10),
+        paginationIndex:0
+        };
+    }
+
+    componentWillReceiveProps(nextProps){
+        this.setState({ pagination: Math.ceil(nextProps.pokemonDetails.pokemon.length/10),
+            paginationIndex: 0
+        })
     }
 
     pokemonList = ()=>{
-        return Object.keys(this.props.pokemonDetails.pokemon).map((listValue) => {
-            if (listValue < 151){
-                return (
-                    <div className="d-flex mb-3" key={listValue}>
-                        {this.props.pokemonDetails.pokemon[listValue].pokemon.name.toUpperCase()}
+        return (this.props.pokemonDetails.pokemon.slice((this.state.paginationIndex*10),this.state.paginationIndex*10+10)).map((pokemon, key)=> {
+            return (
+                <div className="d-flex" key={key}>
+                    <div className="p-2">
+                        {pokemon.pokemon.name.toUpperCase()}
                     </div>
-                )
-            }
+                </div>
+            )
         });
+    };
+
+    paginationList = ()=>{
+        return ([...Array(this.state.pagination).keys()].map(i =>{
+            return (
+                <li className="page-item" key={i}>
+                    <button className="page-link" onClick={()=>{this.setState({paginationIndex:i})}}>{i}</button>
+                </li>
+            )})
+        )
     };
 
     render(){
@@ -27,7 +44,7 @@ class TypeCard extends Component{
 
                     <div className="col-4">
                         <div className="d-flex mb-3">
-                            <div className="p-2" ><h2>Type</h2></div>
+                            <div className="p-2" ><h2>Type Card</h2></div>
                         </div>
                         <img src="navbar.jpg" className="rounded-circle" alt="Not available" height="250" width="200"/>
                     </div>
@@ -66,13 +83,19 @@ class TypeCard extends Component{
                     </div>
                 </div>
                 <div className="row">
-                    <div className="col-3">
+                    <div className="col-8">
                         {this.pokemonList()}
                     </div>
                 </div>
+
+                <nav aria-label="...">
+                    <ul className="pagination">
+                        {this.paginationList()}
+                    </ul>
+                </nav>
             </div>
         )
     }
 }
 
-export default withRouter(TypeCard);
+export default TypeCard;

@@ -1,9 +1,13 @@
-## Pokedox app-
-A user-friendly application to get details about the pokemon by name, id or type.
+## Pokedox App
+A user-friendly application to get details about the pokemons (only first 151 pokemons)
+* Search by pokemon name or id- User can search by pokemon nae or id. they canonly serach for first 150 pokemons.
+    User will see name, id, types, image, and special abilities of the serached pokemon
+* Search by type- User will see the type, id, list of pkemons which come under the searched type etc.
+    
 
-## API used- http://pokeapi.co/
+### API used- http://pokeapi.co/
 
-## Tech Stack- React, Enzyme, Jest, HTML, CSS, Bootstrap
+##### Tech Stack- React, Enzyme, Jest, HTML, CSS, Bootstrap
 
 Steps to run this application-
 
@@ -17,7 +21,7 @@ Steps to run this application-
 
 The component structure of pokedox is as follow-
 
-* App- It is the top level component. It is prsent in the src/ folder
+* App- It is the top level component. It is present in the src/ folder
 
 * Container- This component has two states pokemonDetails, cardType. The cardType state decides which card 
     will be rendered. This state is controlled by SearchBar through showPokeDoxCard method passed as props to SearchBar
@@ -25,8 +29,13 @@ The component structure of pokedox is as follow-
 * SearchBar- This component has two states- input, message, url
     input- it is the name or id or type entered by user
     url- it is used to determine the which api to call (ie. type or name api)
-    message- it is used to indicated message if no result found for user input
+    message- it is used to indicated message for eg- no result found 
 
 * NameCard- This component is rendered when user search for by name pokemon or id
 
 * TypeCard- This component is rendered when user search by type or type id
+
+
+#### Test cases<br /> 
+    The test cases are written using Enzyme. Onle sesfew test cases are included most of which are for searchBar comonnet
+    
